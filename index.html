@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Códigos listas de segmentos</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { padding: 10px; margin: 5px; }
+        .result { margin-top: 20px; font-weight: bold; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #f4f4f4; margin: 5px; padding: 10px; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <h2>Generador de Códigos de listas de segmentos</h2>
+    <p>Introduce el código de la promoción y el número de segmentos</p>
+    <label>Código de Promoción:</label>
+    <input type="text" id="codigoPromo" placeholder="Ej: P20250220220">
+    <br>
+    <label>Número de Segmentos:</label>
+    <input type="number" id="numSegmentos" min="1" placeholder="Ej: 6">
+    <br>
+    <button onclick="generarCodigos()">Generar</button>
+
+    <div class="result">
+        <h3 id="tituloResultado"></h3>
+        <ul id="listaCodigos"></ul>
+    </div>
+
+    <script>
+        function generarCodigos() {
+            // Obtener valores del formulario
+            let codigoPromo = document.getElementById("codigoPromo").value;
+            let numSegmentos = parseInt(document.getElementById("numSegmentos").value);
+            let listaCodigos = document.getElementById("listaCodigos");
+            let tituloResultado = document.getElementById("tituloResultado");
+
+            // Validar entrada
+            if (codigoPromo.length < 4 || isNaN(numSegmentos) || numSegmentos < 1) {
+                alert("Ingrese un código válido y un número de segmentos mayor a 0.");
+                return;
+            }
+
+            // Extraer los últimos 4 dígitos del código
+            let ultimosCuatro = codigoPromo.slice(-4);
+            listaCodigos.innerHTML = ""; // Limpiar lista anterior
+
+            // Generar códigos y mostrarlos
+            tituloResultado.innerText = `Códigos Generados para: ${codigoPromo}`;
+            for (let i = 1; i <= numSegmentos; i++) {
+                let codigoGenerado = `LS${ultimosCuatro}${String(i).padStart(2, "0")}`;
+                let li = document.createElement("li");
+                li.textContent = codigoGenerado;
+                listaCodigos.appendChild(li);
+            }
+        }
+    </script>
+
+</body>
+</html>
